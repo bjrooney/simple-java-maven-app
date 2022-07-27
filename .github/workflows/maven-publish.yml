@@ -36,6 +36,11 @@ jobs:
           username: bjrooney
           password: dckr_pat_Z1UeAEZYdeBGkgVywwlAbUBXGGU
           cache: true
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/node@master
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: 9e9a8f5f-d452-4d56-9f7e-703becf8c205
       - name: List files in the repository
         run: |
           ls -lR ${{ github.workspace }}

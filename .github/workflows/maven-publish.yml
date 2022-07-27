@@ -1,6 +1,16 @@
 name: GitHub Actions Demo
 on: [push]
 jobs:
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: 9e9a8f5f-d452-4d56-9f7e-703becf8c205
+        with:
+          command: monitor
   Explore-GitHub-Actions:
     runs-on: self-hosted 
     steps:
@@ -29,11 +39,6 @@ jobs:
           maven-version: '3.8.2'
       - name: Build with Maven
         run: mvn -B package --file pom.xml
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/node@master
-        continue-on-error: true
-        env:
-          SNYK_TOKEN: 9e9a8f5f-d452-4d56-9f7e-703becf8c205
       - name: Kaniko build
         uses: aevea/action-kaniko@master
         with:

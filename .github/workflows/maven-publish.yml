@@ -31,7 +31,7 @@ jobs:
         run: mvn -B package --file pom.xml
       - name: List files in the repository
         run: |
-          ls ${{ github.workspace }}
+          ls -lR ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
 
 

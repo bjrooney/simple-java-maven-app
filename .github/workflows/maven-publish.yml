@@ -4,7 +4,14 @@ jobs:
   security:
     runs-on: ubuntu-latest
     steps:
+      
+      - name: Setup Maven Action
+        uses: s4u/setup-maven-action@v1.4.0
+        with:
+          java-version: '8'
+          maven-version: '3.8.2'
       - uses: actions/checkout@master
+
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/node@master
         env:

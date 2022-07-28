@@ -41,14 +41,7 @@ jobs:
         with:
           image: bjrooney/simple-java-maven:11.0.16-slim-buster
           sarif: true
-          args: --sarif-file-output=sarif
-      - name: List files in the repository
-        run: |
-          ls -lR ${{ github.workspace }}
-      - name: Upload result to GitHub Code Scanning
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: snyk.sarif
+          args: --severity-threshold=high
 
       - name: Kaniko build
         uses: aevea/action-kaniko@master

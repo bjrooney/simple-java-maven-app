@@ -29,11 +29,6 @@ jobs:
           maven-version: '3.8.2'
       - name: Build with Maven
         run: mvn -B package --file pom.xml
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/node@master
-        run: snyk test
-        env:
-          SNYK_TOKEN: 9e9a8f5f-d452-4d56-9f7e-703becf8c205
       - name: Kaniko build
         uses: aevea/action-kaniko@master
         with:
@@ -45,19 +40,3 @@ jobs:
         run: |
           ls -lR ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
-  security:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/maven@master
-        continue-on-error: true # To make sure that SARIF upload gets called
-        env:
-          SNYK_TOKEN: 9e9a8f5f-d452-4d56-9f7e-703becf8c205
-        with:
-          args: --sarif-file-output=snyk.sarif
-      - name: Upload result to GitHub Code Scanning
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: snyk.sarif
-

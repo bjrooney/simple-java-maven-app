@@ -33,7 +33,7 @@ jobs:
         uses: aevea/action-kaniko@master
         with:
           image: bjrooney/simple-java-maven
-          tag: 19-alpine3.15
+          tag: 9-b130-jdk
           username: bjrooney
           password: dckr_pat_Z1UeAEZYdeBGkgVywwlAbUBXGGU
           cache: true

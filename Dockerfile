@@ -1,4 +1,4 @@
-FROM openjdk:19-alpine3.15
+FROM openjdk:9-b130-jdk
 ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} app.jar
 ENTRYPOINT ["java","-jar","/app.jar"]

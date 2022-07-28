@@ -4,8 +4,8 @@ on: [push]
 env:
   image: bjrooney/simple-java-maven
   tag: 11.0.16-slim-buster
-  java_version: '11'
-  maven_version: '3.8.2'
+  java-version: '11'
+  maven-version: '3.8.2'
 jobs:
   Explore-GitHub-Actions:
     runs-on: self-hosted 

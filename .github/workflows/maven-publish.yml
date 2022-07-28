@@ -32,7 +32,8 @@ jobs:
       - name: Kaniko build
         uses: aevea/action-kaniko@master
         with:
-          image: bjrooney/simple-java-maven:19-alpine3.15
+          image: bjrooney/simple-java-maven
+          tag: 19-alpine3.15
           username: bjrooney
           password: dckr_pat_Z1UeAEZYdeBGkgVywwlAbUBXGGU
           cache: true

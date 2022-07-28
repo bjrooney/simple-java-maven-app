@@ -32,6 +32,18 @@ jobs:
       - 
         name: Docker build
         run:  docker build . -t bjrooney/simple-java-maven:11.0.16-slim-buster
+      - name: Run Snyk to check Docker images for vulnerabilities
+        continue-on-error: true
+        uses: snyk/actions/docker@master
+        env:
+          SNYK_TOKEN: 9e9a8f5f-d452-4d56-9f7e-703becf8c205
+        with:
+          image: bjrooney/simple-java-maven:11.0.16-slim-buster
+          args: --severity-threshold=low
+      - name: Upload result to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: snyk.sarif
       - name: Kaniko build
         uses: aevea/action-kaniko@master
         with:
@@ -40,13 +52,8 @@ jobs:
           username: bjrooney
           password: dckr_pat_Z1UeAEZYdeBGkgVywwlAbUBXGGU
           cache: true
-      - name: Run Snyk to check Docker images for vulnerabilities
-        uses: snyk/actions/docker@master
-        env:
-          SNYK_TOKEN: 9e9a8f5f-d452-4d56-9f7e-703becf8c205
-        with:
-          image: bjrooney/simple-java-maven:11.0.16-slim-buster
-          args: --severity-threshold=high
+
+
       - name: List files in the repository
         run: |
           ls -lR ${{ github.workspace }}

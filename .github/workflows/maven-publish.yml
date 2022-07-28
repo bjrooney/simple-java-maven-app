@@ -39,7 +39,7 @@ jobs:
           SNYK_TOKEN: 9e9a8f5f-d452-4d56-9f7e-703becf8c205
         with:
           image: bjrooney/simple-java-maven:11.0.16-slim-buster
-          args: --severity-threshold=low --sarif-file-output=snyk.sarif
+          args: --sarif-file-output=snyk.sarif
       - name: Upload result to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v2
         with:

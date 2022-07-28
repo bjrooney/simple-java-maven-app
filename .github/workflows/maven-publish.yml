@@ -41,7 +41,7 @@ jobs:
         with:
           image: bjrooney/simple-java-maven:11.0.16-slim-buster
           sarif: true
-          args: --severity-threshold=high
+          args: --sarif-file-output=sarif
       - name: List files in the repository
         run: |
           ls -lR ${{ github.workspace }}

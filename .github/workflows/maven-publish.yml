@@ -37,7 +37,7 @@ jobs:
         run: mvn -B package --file pom.xml
       - 
         name: Docker build
-        run:  docker build . -t ${{ env.image }}+':'+${{ env.tag }}
+        run:  docker build . -t ${{ env.image }}':'${{ env.tag }}
 
       - name: Run Snyk to check Docker images for vulnerabilities
         continue-on-error: true
@@ -45,7 +45,7 @@ jobs:
         env:
           SNYK_TOKEN: 9e9a8f5f-d452-4d56-9f7e-703becf8c205
         with:
-          image:  ${{ env.image }}+':'+${{ env.tag }}
+          image:  ${{ env.image }}':'${{ env.tag }}
           sarif: true
           args: --severity-threshold=high
 

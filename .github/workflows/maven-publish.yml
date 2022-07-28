@@ -25,27 +25,28 @@ jobs:
       - name: Setup Maven Action
         uses: s4u/setup-maven-action@v1.4.0
         with:
-          java-version: '8'
+          java-version: '11'
           maven-version: '3.8.2'
       - name: Build with Maven
         run: mvn -B package --file pom.xml
       - 
         name: Docker build
-        run:  docker build . -t bjrooney/simple-java-maven:19-jdk-alpine3.16
-      - name: Container Scan
-        uses: azure/container-scan@v0
-        with:
-          image-name: bjrooney/simple-java-maven:19-jdk-alpine3.16
-          username: bjrooney
-          password: dckr_pat_Z1UeAEZYdeBGkgVywwlAbUBXGGU
+        run:  docker build . -t bjrooney/simple-java-maven:11.0.16-slim-buster
       - name: Kaniko build
         uses: aevea/action-kaniko@master
         with:
           image: bjrooney/simple-java-maven
-          tag: 19-jdk-alpine3.16
+          tag: 11.0.16-slim-buster
           username: bjrooney
           password: dckr_pat_Z1UeAEZYdeBGkgVywwlAbUBXGGU
           cache: true
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/maven-3-jdk-11@master
+        continue-on-error: true # To make sure that SARIF upload gets called
+        env:
+          SNYK_TOKEN: 9e9a8f5f-d452-4d56-9f7e-703becf8c205
+        with:
+          args: --severity-threshold=low
       - name: List files in the repository
         run: |
           ls -lR ${{ github.workspace }}

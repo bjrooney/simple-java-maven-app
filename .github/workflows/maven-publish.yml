@@ -3,7 +3,7 @@ on: [push]
 
 env:
   image: bjrooney/simple-java-maven
-  tag: 11.0.16-slim-buster
+  tag: 19-jdk-alpine
   java-version: '11'
   maven-version: '3.8.2'
 jobs:

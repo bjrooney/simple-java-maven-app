@@ -31,16 +31,16 @@ jobs:
         run: mvn -B package --file pom.xml
       - 
         name: Docker build
-        run:  docker build . -t bjrooney/simple-java-maven:9-b130-jdk
+        run:  docker build . -t bjrooney/simple-java-maven:19-jdk-alpine3.16
       - name: Container Scan
         uses: azure/container-scan@v0
         with:
-          image-name: bjrooney/simple-java-maven:9-b130-jdk
+          image-name: bjrooney/simple-java-maven:19-jdk-alpine3.16
       - name: Kaniko build
         uses: aevea/action-kaniko@master
         with:
           image: bjrooney/simple-java-maven
-          tag: 9-b130-jdk
+          tag: 19-jdk-alpine3.16
           username: bjrooney
           password: dckr_pat_Z1UeAEZYdeBGkgVywwlAbUBXGGU
           cache: true

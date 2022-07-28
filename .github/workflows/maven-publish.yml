@@ -29,7 +29,13 @@ jobs:
           maven-version: '3.8.2'
       - name: Build with Maven
         run: mvn -B package --file pom.xml
-      # - run: docker build . -t contoso.azurecr.io/k8sdemo:${{ github.sha }}
+      - 
+        name: Docker build
+        run:  docker build . -t bjrooney/simple-java-maven:9-b130-jdk
+      - name: Container Scan
+        uses: azure/container-scan@v0
+        with:
+          image-name: bjrooney/simple-java-maven:9-b130-jdk
       - name: Kaniko build
         uses: aevea/action-kaniko@master
         with:
@@ -38,12 +44,6 @@ jobs:
           username: bjrooney
           password: dckr_pat_Z1UeAEZYdeBGkgVywwlAbUBXGGU
           cache: true
-      - name: Container Scan
-        uses: azure/container-scan@v0
-        with:
-          image-name: bjrooney/simple-java-maven:9-b130-jdk
-          username: bjrooney
-          password: dckr_pat_Z1UeAEZYdeBGkgVywwlAbUBXGGU
       - name: List files in the repository
         run: |
           ls -lR ${{ github.workspace }}

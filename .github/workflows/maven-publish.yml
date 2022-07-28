@@ -42,7 +42,9 @@ jobs:
           image: bjrooney/simple-java-maven:11.0.16-slim-buster
           sarif: true
           args: --severity-threshold=high
-
+      - name: List files in the repository
+        run: |
+          ls -lR ${{ github.workspace }}
       - name: Upload result to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v2
         with:

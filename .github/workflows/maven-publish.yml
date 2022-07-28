@@ -37,6 +37,12 @@ jobs:
           username: bjrooney
           password: dckr_pat_Z1UeAEZYdeBGkgVywwlAbUBXGGU
           cache: true
+      - name: Container Scan
+        uses: azure/container-scan@v0
+        with:
+          image-name: bjrooney/simple-java-maven
+          username: bjrooney
+          password: dckr_pat_Z1UeAEZYdeBGkgVywwlAbUBXGGU
       - name: List files in the repository
         run: |
           ls -lR ${{ github.workspace }}

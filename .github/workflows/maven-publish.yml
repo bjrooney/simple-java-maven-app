@@ -36,6 +36,8 @@ jobs:
         uses: azure/container-scan@v0
         with:
           image-name: bjrooney/simple-java-maven:19-jdk-alpine3.16
+          username: bjrooney
+          password: dckr_pat_Z1UeAEZYdeBGkgVywwlAbUBXGGU
       - name: Kaniko build
         uses: aevea/action-kaniko@master
         with:

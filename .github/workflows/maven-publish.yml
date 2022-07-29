@@ -78,17 +78,10 @@ jobs:
       - name: 'Deploy'
         uses: 'deliverybot/helm@v1'
         with:
-          release: 'nginx'
-          namespace: 'default'
-          chart: 'app'
           token: '${{ github.token }}'
-          values: |
-            name: foobar
-          value-files: >-
-          [
-            "values.yaml", 
-            "values.production.yaml"
-          ]
+          secrets: '${{ toJSON(secrets) }}'
+          version: '${{ github.sha }}'
+          chart: 'app'
 
       - 
         name: List files in the repository

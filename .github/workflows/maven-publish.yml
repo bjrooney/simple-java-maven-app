@@ -19,41 +19,46 @@ jobs:
         uses: actions/checkout@v3
       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
       - run: echo "🖥️ The workflow is now ready to test your code on the runner."
+
       # - name: Docker Meta
       #   uses: docker/metadata-action@v4
       #   id: metadata
       #   with:
-      #     images: bjrooney/simple-java-maven
+      #     images: ${{ env.image }}:${{ env.tag }}
       # -
-      #   name: Login to DockerHub
+      #   name: Login to Artifactory
       #   uses: docker/login-action@v2
       #   with:
-      #     username: bjrooney
-      #     password: dckr_pat_Z1UeAEZYdeBGkgVywwlAbUBXGGU
-      - name: Setup Maven Action
+          # username: ${{ secrets.DOCKER_USERNAME }}
+          # password: ${{ secrets.DOCKER_SECRET }}
+      - 
+        name: Setup Maven Action - 
         uses: s4u/setup-maven-action@v1.4.0
         with:
           java-version:  ${{ env.java-version }}
           maven-version: ${{ env.maven-version }}
 
-      - name: Build with Maven
+      - 
+        name: Build with Maven
         run: mvn -B package --file pom.xml
 
       - 
-        name: Docker build
+        name: Docker build locally for Snyk Scan
         run:  docker build . -t ${{ env.image }}:${{ env.tag }}
 
-      - name: Run Snyk to check Docker images for vulnerabilities
+      - 
+        name: Run Snyk to check Docker images for vulnerabilities
         continue-on-error: true
         uses: snyk/actions/docker@master
         env:
-          SNYK_TOKEN: 9e9a8f5f-d452-4d56-9f7e-703becf8c205
+          SNYK_TOKEN: ${{ secrets.SYNK_TOKEN}}
         with:
           image:  ${{ env.image }}:${{ env.tag }}
           sarif: true
           args: --severity-threshold=high
 
-      - name: Kaniko build
+      - 
+        name: Kaniko build to Artifactory
         uses: aevea/action-kaniko@master
         with:
           image: ${{ env.image }}
@@ -63,8 +68,13 @@ jobs:
           password: ${{ secrets.DOCKER_SECRET }}
           cache: true
 
+      - uses: azure/setup-helm@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }} # only needed if version is 'latest'
+        id: install
 
-      - name: List files in the repository
+      - 
+        name: List files in the repository
         run: |
           ls -lR ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."

@@ -7,6 +7,7 @@ env:
   java-version: '11'
   maven-version: '3.8.2'
   docker-registry: crezz.jfrog.io/default-docker
+  artifactory-default-helm: https://crezz.jfrog.io/artifactory/api/helm/default-helm
   
 jobs:
   Explore-GitHub-Actions:
@@ -74,6 +75,7 @@ jobs:
         id: install
 
       - run: helm version 
+      - run: helm repo add default-helm ${{env.artifactory-default-helm }} --username brendan.rooney@gmail.com --password AKCp8mZn7j64vszaRjtqqG1mzdAg6UeAWQDUh8dxSUNJs8k9twyGj8uCvrWZyMbFPjrDcmV62
 
       - name: 'Deploy'
         uses: 'deliverybot/helm@v1'

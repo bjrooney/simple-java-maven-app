@@ -77,14 +77,6 @@ jobs:
       - run: helm version 
       - run: helm repo add default-helm ${{env.artifactory-default-helm }} --username brendan.rooney@gmail.com --password AKCp8mZn7j64vszaRjtqqG1mzdAg6UeAWQDUh8dxSUNJs8k9twyGj8uCvrWZyMbFPjrDcmV62
 
-      - name: 'Deploy'
-        uses: 'deliverybot/helm@v1'
-        with:
-          token: '${{ github.token }}'
-          secrets: '${{ toJSON(secrets) }}'
-          version: '${{ github.sha }}'
-          chart: 'app'
-
       - 
         name: List files in the repository
         run: |

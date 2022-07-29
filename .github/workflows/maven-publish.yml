@@ -73,6 +73,8 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }} # only needed if version is 'latest'
         id: install
 
+      - run: helm version 
+      
       - 
         name: List files in the repository
         run: |

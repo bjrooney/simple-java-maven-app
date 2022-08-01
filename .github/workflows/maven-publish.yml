@@ -38,7 +38,7 @@ jobs:
         with:
           java-version:  ${{ env.java-version }}
           maven-version: ${{ env.maven-version }}
-          distribution:  ${{ env.distribution}}
+          java-distribution:  ${{ env.distribution}}
 
       - 
         name: Build with Maven

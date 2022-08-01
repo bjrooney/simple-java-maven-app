@@ -32,14 +32,6 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_SECRET }}
 
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/maven-3-jdk-11@master
-        continue-on-error: true # To make sure that SARIF upload gets called
-        env:
-          SNYK_TOKEN: 9e9a8f5f-d452-4d56-9f7e-703becf8c205
-        with:
-          args: --severity-threshold=high
-
       - 
         name: Setup Maven Action - 
         uses: s4u/setup-maven-action@v1.4.0
@@ -51,20 +43,7 @@ jobs:
         name: Build with Maven
         run: mvn -B package --file pom.xml
 
-      - 
-        name: Docker build locally for Snyk Scan
-        run:  docker build . -t ${{ env.image }}:${{ env.tag }}
 
-      - 
-        name: Run Snyk to check Docker images for vulnerabilities
-        continue-on-error: true
-        uses: snyk/actions/docker@master
-        env:
-          SNYK_TOKEN: ${{ secrets.SYNK_TOKEN}}
-        with:
-          image:  ${{ env.image }}:${{ env.tag }}
-          sarif: true
-          args: --severity-threshold=high
 
       - 
         name: Kaniko build to Artifactory

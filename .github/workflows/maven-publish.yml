@@ -19,17 +19,27 @@ jobs:
       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
       - run: echo "🖥️ The workflow is now ready to test your code on the runner."
 
-      # - name: Docker Meta
-      #   uses: docker/metadata-action@v4
-      #   id: metadata
-      #   with:
-      #     images: ${{ env.image }}:${{ env.tag }}
-      # -
-      #   name: Login to Artifactory
-      #   uses: docker/login-action@v2
-      #   with:
-          # username: ${{ secrets.DOCKER_USERNAME }}
-          # password: ${{ secrets.DOCKER_SECRET }}
+      - name: Docker Meta
+        uses: docker/metadata-action@v4
+        id: metadata
+        with:
+          images: ${{ env.image }}:${{ env.tag }}
+      -
+        name: Login to Artifactory
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ secrets.ARTIFACTORY_DOCKER_REPO }}
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_SECRET }}
+
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/maven-3-jdk-11@master
+        continue-on-error: true # To make sure that SARIF upload gets called
+        env:
+          SNYK_TOKEN: 9e9a8f5f-d452-4d56-9f7e-703becf8c205
+        with:
+          args: --severity-threshold=high
+
       - 
         name: Setup Maven Action - 
         uses: s4u/setup-maven-action@v1.4.0
@@ -75,13 +85,7 @@ jobs:
       - run: helm version 
       - run: helm repo add default-helm ${{secrets.ARTIFACTORY_HELM }} --username brendan.rooney@gmail.com --password AKCp8mZn7j64vszaRjtqqG1mzdAg6UeAWQDUh8dxSUNJs8k9twyGj8uCvrWZyMbFPjrDcmV62
 
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/maven-3-jdk-11@master
-        continue-on-error: true # To make sure that SARIF upload gets called
-        env:
-          SNYK_TOKEN: 9e9a8f5f-d452-4d56-9f7e-703becf8c205
-        with:
-          args: --severity-threshold=high
+
       - 
         name: List files in the repository
         run: |

@@ -20,11 +20,7 @@ jobs:
       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
       - run: echo "🖥️ The workflow is now ready to test your code on the runner."
 
-      - name: Docker Meta
-        uses: docker/metadata-action@v4
-        id: metadata
-        with:
-          images: ${{ env.image }}:${{ env.tag }}
+
       -
         name: Login to Artifactory
         uses: docker/login-action@v2
@@ -47,7 +43,12 @@ jobs:
       - 
         name: Docker build locally for Snyk Scan
         run:  docker build . -t ${{ env.image }}:${{ env.tag }}
-
+        
+      - name: Docker Meta
+        uses: docker/metadata-action@v4
+        id: metadata
+        with:
+          images: ${{ env.image }}:${{ env.tag }}
       - 
         name: Run Snyk to check Docker images for vulnerabilities
         continue-on-error: true

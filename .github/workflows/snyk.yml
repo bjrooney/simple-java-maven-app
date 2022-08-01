@@ -1,6 +1,10 @@
 name: Synk Test
 on: [push]
-
+env:
+  image: simple-java-maven
+  tag: 19-jdk-alpine
+  java-version: '11'
+  maven-version: '3.8.2'
 jobs:
   Run-Synk:
     runs-on: self-hosted

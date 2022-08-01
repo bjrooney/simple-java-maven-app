@@ -6,8 +6,6 @@ env:
   tag: 19-jdk-alpine
   java-version: '11'
   maven-version: '3.8.2'
-  docker-registry: crezz.jfrog.io/default-docker
-  artifactory-default-helm: https://crezz.jfrog.io/artifactory/api/helm/default-helm
   
 jobs:
   Explore-GitHub-Actions:
@@ -64,7 +62,7 @@ jobs:
         with:
           image: ${{ env.image }}
           tag:   ${{ env.tag }}
-          registry: ${{ env.docker-registry }}
+          registry: ${{ secret.ARTIFACTORY_DOCKER_REPO }}
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_SECRET }}
           cache: true
@@ -75,8 +73,15 @@ jobs:
         id: install
 
       - run: helm version 
-      - run: helm repo add default-helm ${{env.artifactory-default-helm }} --username brendan.rooney@gmail.com --password AKCp8mZn7j64vszaRjtqqG1mzdAg6UeAWQDUh8dxSUNJs8k9twyGj8uCvrWZyMbFPjrDcmV62
+      - run: helm repo add default-helm ${{secret.ARTIFACTORY_HELM }} --username brendan.rooney@gmail.com --password AKCp8mZn7j64vszaRjtqqG1mzdAg6UeAWQDUh8dxSUNJs8k9twyGj8uCvrWZyMbFPjrDcmV62
 
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/maven-3-jdk-11@master
+        continue-on-error: true # To make sure that SARIF upload gets called
+        env:
+          SNYK_TOKEN: ${{ secrets.SYNK_TOKEN}}
+        with:
+          args: --severity-threshold=high
       - 
         name: List files in the repository
         run: |

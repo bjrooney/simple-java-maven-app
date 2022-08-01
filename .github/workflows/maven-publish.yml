@@ -3,7 +3,7 @@ on: [push]
 
 env:
   image: simple-java-maven
-  tag: 19-jdk-alpine
+  tag: msopenjdk-11=11.0.11+9-1
   java-version: '11'
   maven-version: '3.8.2'
   distribution: 'microsoft'

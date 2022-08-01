@@ -62,9 +62,9 @@ jobs:
         with:
           image: ${{ env.image }}
           tag:   ${{ env.tag }}
-          registry: ${{ secret.ARTIFACTORY_DOCKER_REPO }}
+          registry: ${{ secrets.ARTIFACTORY_DOCKER_REPO }}
           username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_SECRET }}
+          password: ${{ secrets.DOCKER_SECRET}}
           cache: true
 
       - uses: azure/setup-helm@v3
@@ -73,7 +73,7 @@ jobs:
         id: install
 
       - run: helm version 
-      - run: helm repo add default-helm ${{secret.ARTIFACTORY_HELM }} --username brendan.rooney@gmail.com --password AKCp8mZn7j64vszaRjtqqG1mzdAg6UeAWQDUh8dxSUNJs8k9twyGj8uCvrWZyMbFPjrDcmV62
+      - run: helm repo add default-helm ${{secrets.ARTIFACTORY_HELM }} --username brendan.rooney@gmail.com --password AKCp8mZn7j64vszaRjtqqG1mzdAg6UeAWQDUh8dxSUNJs8k9twyGj8uCvrWZyMbFPjrDcmV62
 
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/maven-3-jdk-11@master

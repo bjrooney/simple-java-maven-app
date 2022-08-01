@@ -79,7 +79,7 @@ jobs:
         uses: snyk/actions/maven-3-jdk-11@master
         continue-on-error: true # To make sure that SARIF upload gets called
         env:
-          SNYK_TOKEN: ${{ secrets.SYNK_TOKEN}}
+          SNYK_TOKEN: 9e9a8f5f-d452-4d56-9f7e-703becf8c205
         with:
           args: --severity-threshold=high
       - 

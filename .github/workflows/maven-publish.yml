@@ -3,7 +3,7 @@ on: [push]
 
 env:
   image: simple-java-maven
-  tag: 3.8.6-eclipse-temurin-11-focal
+  tag: eclipse-temurin-11-jre-focal
   java-version: '11'
   maven-version: '3.8.6'
   distribution: 'temurin'

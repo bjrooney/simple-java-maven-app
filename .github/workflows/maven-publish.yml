@@ -19,13 +19,12 @@ jobs:
         uses: snyk/actions/maven-3-jdk-11@master
         continue-on-error: true # 
         env:
-          SNYK_TOKEN: 9e9a8f5f-d452-4d56-9f7e-703becf8c205
+          SNYK_TOKEN: ${{ secrets.SYNK_TOKEN}}
         with:
           args: --severity-threshold=low
       - 
         name: Docker build locally for Snyk Scan
         run:  docker build . -t ${{ env.image }}:${{ env.tag }}
-
       - 
         name: Docker Meta
         uses: docker/metadata-action@v4
@@ -41,11 +40,7 @@ jobs:
         with:
           image:  ${{ env.image }}:${{ env.tag }}
           args: --file=Dockerfile
-      - 
-        name: Upload result to GitHub Code Scanning
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: snyk.sarif
+
 
   Explore-GitHub-Actions:
     runs-on: self-hosted 

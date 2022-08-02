@@ -3,7 +3,7 @@ on: [push]
 
 env:
   image: simple-java-maven
-  tag: msopenjdk-11
+  tag: 3-jdk-11
   java-version: '11'
   maven-version: '3.8.2'
   distribution: 'microsoft'
@@ -23,6 +23,9 @@ jobs:
         with:
           args: --severity-threshold=low
       - 
+        name: Build with Maven
+        run: mvn -B package --file pom.xml
+      - 
         name: Docker build locally for Snyk Scan
         run:  docker build . -t ${{ env.image }}:${{ env.tag }}
       - 
@@ -40,38 +43,6 @@ jobs:
         with:
           image:  ${{ env.image }}:${{ env.tag }}
           args: --file=Dockerfile
-
-
-  Explore-GitHub-Actions:
-    runs-on: self-hosted 
-    steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Check out repository code
-        uses: actions/checkout@v3
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-
-
-      -
-        name: Login to Artifactory
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_SECRET }}
-          registry: ${{ secrets.ARTIFACTORY_DOCKER_REPO }}
-      - 
-        name: Setup Maven Action - 
-        uses: s4u/setup-maven-action@v1.4.0
-        with:
-          java-version:  ${{ env.java-version }}
-          maven-version: ${{ env.maven-version }}
-          java-distribution:  ${{ env.distribution}}
-
-      - 
-        name: Build with Maven
-        run: mvn -B package --file pom.xml
       - 
         name: Kaniko build to Artifactory
         uses: aevea/action-kaniko@master
@@ -83,16 +54,57 @@ jobs:
           password: ${{ secrets.DOCKER_SECRET}}
           cache: true
 
-      - uses: azure/setup-helm@v3
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }} # only needed if version is 'latest'
-        id: install
+  # Explore-GitHub-Actions:
+  #   runs-on: self-hosted 
+  #   steps:
+  #     - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+  #     - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+  #     - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+  #     - name: Check out repository code
+  #       uses: actions/checkout@v3
+  #     - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+  #     - run: echo "🖥️ The workflow is now ready to test your code on the runner."
 
-      - run: helm version 
-      - run: helm repo add default-helm ${{secrets.ARTIFACTORY_HELM }} --username brendan.rooney@gmail.com --password AKCp8mZn7j64vszaRjtqqG1mzdAg6UeAWQDUh8dxSUNJs8k9twyGj8uCvrWZyMbFPjrDcmV62
 
-      - 
-        name: List files in the repository
-        run: |
-          ls -lR ${{ github.workspace }}
+  #     -
+  #       name: Login to Artifactory
+  #       uses: docker/login-action@v2
+  #       with:
+  #         username: ${{ secrets.DOCKER_USERNAME }}
+  #         password: ${{ secrets.DOCKER_SECRET }}
+  #         registry: ${{ secrets.ARTIFACTORY_DOCKER_REPO }}
+  #     - 
+  #       name: Setup Maven Action - 
+  #       uses: s4u/setup-maven-action@v1.4.0
+  #       with:
+  #         java-version:  ${{ env.java-version }}
+  #         maven-version: ${{ env.maven-version }}
+  #         java-distribution:  ${{ env.distribution}}
+
+  #     - 
+  #       name: Build with Maven
+  #       run: mvn -B package --file pom.xml
+  #     - 
+  #       name: Kaniko build to Artifactory
+  #       uses: aevea/action-kaniko@master
+  #       with:
+  #         image: ${{ env.image }}
+  #         tag:   ${{ env.tag }}
+  #         registry: ${{ secrets.ARTIFACTORY_DOCKER_REPO }}
+  #         username: ${{ secrets.DOCKER_USERNAME }}
+  #         password: ${{ secrets.DOCKER_SECRET}}
+  #         cache: true
+
+  #     - uses: azure/setup-helm@v3
+  #       with:
+  #         token: ${{ secrets.GITHUB_TOKEN }} # only needed if version is 'latest'
+  #       id: install
+
+  #     - run: helm version 
+  #     - run: helm repo add default-helm ${{secrets.ARTIFACTORY_HELM }} --username brendan.rooney@gmail.com --password AKCp8mZn7j64vszaRjtqqG1mzdAg6UeAWQDUh8dxSUNJs8k9twyGj8uCvrWZyMbFPjrDcmV62
+
+  #     - 
+  #       name: List files in the repository
+  #       run: |
+  #         ls -lR ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."

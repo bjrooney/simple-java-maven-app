@@ -5,7 +5,7 @@ env:
   image: simple-java-maven
   tag: 3-jdk-11
   java-version: '11'
-  maven-version: '3.8.2'
+  maven-version: '3.8.6'
   distribution: 'temurin'
   
 jobs:

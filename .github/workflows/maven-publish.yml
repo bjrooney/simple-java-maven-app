@@ -89,16 +89,9 @@ jobs:
         id: install
       - run: helm version 
       - run: helm repo add default-helm ${{secrets.ARTIFACTORY_HELM }}  --username ${{ secrets.HELM_USERNAME }} --password ${{ secrets.HELM_SECRET}}
-      - 
-        name: 
-        uses: goodsmileduck/helm-push-action@v3
-        env:
-          SOURCE_DIR: '.'
-          CHART_FOLDER: 'simple-java-maven-app'
-          FORCE: 'True'
-          CHARTMUSEUM_URL: ${{secrets.ARTIFACTORY_HELM }}
-          CHARTMUSEUM_USER: ${{ secrets.HELM_USERNAME }}
-          CHARTMUSEUM_PASSWORD: ${{ secrets.HELM_SECRET}}
+      - run: helm package simple-java-maven-app 
+      - run: curl -H "X-JFrog-Art-Api:${{ secrets.HELM_SECRET}}" -T ./simple-java-maven-app-0.1.0.tgz    "https://crezz.jfrog.io/artifactory/default-helm/simple-java-maven-app"
+
       - 
         name: List files in the repository
         run: |

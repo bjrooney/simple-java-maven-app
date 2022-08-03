@@ -88,7 +88,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }} # only needed if version is 'latest'
         id: install
       - run: helm version 
-      - run: helm repo add default-helm ${{secrets.ARTIFACTORY_HELM }} --username ${{ secrets.HELM_USERNAME }}--password ${{ secrets.HELM_SECRET}}
+      - run: helm repo add default-helm ${{secrets.ARTIFACTORY_HELM }}  --username ${{ secrets.HELM_USERNAME }} --password ${{ secrets.HELM_SECRET}}
 
       - 
         name: List files in the repository

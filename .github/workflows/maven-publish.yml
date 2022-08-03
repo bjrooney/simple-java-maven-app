@@ -90,11 +90,13 @@ jobs:
       - run: helm version
 
       - name: Add artifactory helm repo default-helm
-        run: helm repo add default-helm ${{secrets.ARTIFACTORY_HELM }}  --username ${{ secrets.HELM_USERNAME }} --password ${{ secrets.HELM_SECRET}}
+        run: helm repo add default-helm ${{secrets.ARTIFACTORY_HELM }}/api/helm/default-helm  --username ${{ secrets.HELM_USERNAME }} --password ${{ secrets.HELM_SECRET}}
+ 
       - name: Package helm
         run: helm package simple-java-maven-app 
+ 
       - name: Deploy simple-java-maven-app-0.1.0.tgz to ${{secrets.ARTIFACTORY_HELM }}
-        run: curl -H "X-JFrog-Art-Api:${{ secrets.HELM_SECRET}}" -T ./simple-java-maven-app-0.1.0.tgz    "https://crezz.jfrog.io/artifactory/default-helm/simple-java-maven-app"
+        run: curl -H "X-JFrog-Art-Api:${{ secrets.HELM_SECRET}}" -T ./simple-java-maven-app-0.1.0.tgz    "${{secrets.ARTIFACTORY_HELM }}/default-helm/simple-java-maven-app"
 
       - 
         name: List files in the repository

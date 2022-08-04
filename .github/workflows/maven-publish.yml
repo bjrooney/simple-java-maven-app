@@ -112,10 +112,10 @@ jobs:
     - name: Helm Artifactory Lint
       uses: mbovo/action-helm-artifactory@v1.0.0
       with:
-        action: lint
+        action: push
       env:
         CHART_DIR: example-helm-chart
         ARTIFACTORY_URL:      ${{secrets.ARTIFACTORY_HELM }}/default-helm/example-helm-chart
         ARTIFACTORY_USERNAME: ${{ secrets.HELM_USERNAME }}
         ARTIFACTORY_PASSWORD: ${{ secrets.HELM_SECRET }}
-        ACTION: lint
+        ACTION: push

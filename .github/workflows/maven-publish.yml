@@ -22,8 +22,6 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN}}
         with:
           args: --severity-threshold=low
-
-
   Explore-GitHub-Actions:
     runs-on: self-hosted 
     steps:
@@ -93,13 +91,30 @@ jobs:
         run: helm repo add default-helm ${{secrets.ARTIFACTORY_HELM }}/api/helm/default-helm  --username ${{ secrets.HELM_USERNAME }} --password ${{ secrets.HELM_SECRET}}
  
       - name: Package helm
-        run: helm package simple-java-maven-app 
+        run: helm package example-helm-chart 
  
-      - name: Deploy simple-java-maven-app-0.1.0.tgz to ${{secrets.ARTIFACTORY_HELM }}
-        run: curl -H "X-JFrog-Art-Api:${{ secrets.HELM_SECRET}}" -T ./simple-java-maven-app-0.1.0.tgz    "${{secrets.ARTIFACTORY_HELM }}/default-helm/simple-java-maven-app"
+      - name: Deploy example-helm-chart-0.1.0.tgz to ${{secrets.ARTIFACTORY_HELM }}
+        run: curl -H "X-JFrog-Art-Api:${{ secrets.HELM_SECRET}}" -T ./example-helm-chart-0.1.0.tgz    "${{secrets.ARTIFACTORY_HELM }}/default-helm/example-helm-chart"
 
       - 
         name: List files in the repository
         run: |
           ls -lR ${{ github.workspace }}
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+      - run: echo "🍏 This job's status is ${{ job.status }}." 
+  helm-suite:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    # - name: myOtherJob1
+    #   run:
+
+    - name: "Helm publish"
+      uses: mbovo/action-helm-tools@v1.0.0
+      with:
+        action: "push"
+      env:
+        CHART_DIR: example-helm-chart
+        ARTIFACTORY_URL:      ${{secrets.ARTIFACTORY_HELM }}/default-helm/example-helm-chart
+        ARTIFACTORY_USERNAME: ${{ secrets.HELM_USERNAME }}
+        ARTIFACTORY_PASSWORD: ${{ secrets.HELM_SECRET }}

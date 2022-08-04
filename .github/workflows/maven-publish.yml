@@ -109,8 +109,9 @@ jobs:
     # - name: myOtherJob1
     #   run:
 
-    - name: "Helm publish"
-      uses: mbovo/action-helm-tools@v1.0.0
+    - name: Helm Artifactory Publisher
+      uses: mbovo/action-helm-artifactory@v1.0.0
+
       with:
         action: "push"
       env:

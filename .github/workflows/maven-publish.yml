@@ -115,7 +115,7 @@ jobs:
         action: push
       env:
         CHART_DIR: example-helm-chart
-        ARTIFACTORY_URL:      ${{secrets.ARTIFACTORY_HELM }}/default-helm
+        ARTIFACTORY_URL:      ${{secrets.ARTIFACTORY_HELM }}/api/helm/default-helm 
         ARTIFACTORY_USERNAME: ${{ secrets.HELM_USERNAME }}
         ARTIFACTORY_PASSWORD: ${{ secrets.HELM_SECRET }}
         ACTION: push

@@ -106,16 +106,24 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    # - name: myOtherJob1
-    #   run:
+    - name: Helm Artifactory check
+      uses: mbovo/action-helm-tools@v1.0.0
+      with:
+        action: check
+      env:
+        CHART_DIR: example-helm-chart
+        ARTIFACTORY_URL:      ${{secrets.ARTIFACTORY_HELM }}/artifactory/helm-local/
+        ARTIFACTORY_USERNAME: ${{ secrets.HELM_USERNAME }}
+        ARTIFACTORY_PASSWORD: ${{ secrets.HELM_SECRET }}
+        ACTION: check
 
-    - name: Helm Artifactory Lint
+    - name: Helm Artifactory Push
       uses: mbovo/action-helm-artifactory@v1.0.0
       with:
         action: push
       env:
         CHART_DIR: example-helm-chart
-        ARTIFACTORY_URL:      ${{secrets.ARTIFACTORY_HELM }}/artifactory/default-helm-local/
+        ARTIFACTORY_URL:      ${{secrets.ARTIFACTORY_HELM }}/artifactory/helm-local/
         ARTIFACTORY_USERNAME: ${{ secrets.HELM_USERNAME }}
         ARTIFACTORY_PASSWORD: ${{ secrets.HELM_SECRET }}
         ACTION: push

@@ -100,7 +100,7 @@ jobs:
         name: List files in the repository
         run: |
           ls -lR ${{ github.workspace }}
-      - run: echo "🍏 This job's status is ${{ job.status }}." 
+      - run: echo "🍏 This job's status is ${{ job.status }}."
   helm-suite:
     runs-on: ubuntu-latest
     steps:
@@ -110,6 +110,7 @@ jobs:
       with:
         action: check_push
       env:
+        CHART_DIR: ./example-helm-chart
         ARTIFACTORY_URL:      https://crezz.jfrog.io/artifactory/default-helm-local/
         ARTIFACTORY_USERNAME: ${{ secrets.HELM_USERNAME }}
         ARTIFACTORY_PASSWORD: ${{ secrets.HELM_SECRET }}

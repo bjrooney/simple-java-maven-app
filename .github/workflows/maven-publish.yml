@@ -107,7 +107,7 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Helm Artifactory check
-      uses: mbovo/action-helm-tools@v1.0.0
+      uses: mbovo/action-helm-tools@main
       with:
         action: check
       env:
@@ -118,7 +118,7 @@ jobs:
         ACTION: check
 
     - name: Helm Artifactory Push
-      uses: mbovo/action-helm-artifactory@v1.0.0
+      uses: mbovo/action-helm-artifactory@main
       with:
         action: push
       env:

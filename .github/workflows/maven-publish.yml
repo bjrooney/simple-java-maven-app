@@ -108,21 +108,10 @@ jobs:
     - name: Helm Artifactory check
       uses: mbovo/action-helm-artifactory@main
       with:
-        action: check
+        action: check_push
       env:
         CHART_DIR: example-helm-chart
-        ARTIFACTORY_URL:      ${{secrets.ARTIFACTORY_HELM }}/artifactory/helm-local/
+        ARTIFACTORY_URL:      https://crezz.jfrog.io/artifactory/default-helm-local/
         ARTIFACTORY_USERNAME: ${{ secrets.HELM_USERNAME }}
         ARTIFACTORY_PASSWORD: ${{ secrets.HELM_SECRET }}
-        ACTION: check
-
-    - name: Helm Artifactory Push
-      uses: mbovo/action-helm-artifactory@main
-      with:
-        action: push
-      env:
-        CHART_DIR: example-helm-chart
-        ARTIFACTORY_URL:      https://crezz.jfrog.io/artifactory/default-helm-local
-        ARTIFACTORY_USERNAME: ${{ secrets.HELM_USERNAME }}
-        ARTIFACTORY_PASSWORD: ${{ secrets.HELM_SECRET }}
-        ACTION: push
+        ACTION: check_push

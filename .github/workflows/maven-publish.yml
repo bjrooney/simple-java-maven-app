@@ -70,7 +70,7 @@ jobs:
           args: --file=Dockerfile
       - 
         name: Kaniko build to Artifactory
-        uses: aevea/action-kaniko@master
+        uses: ./.github/actions/kaniko
         with:
           image: ${{ env.image }}
           tag:   ${{ env.tag }}

@@ -1,6 +1,4 @@
-FROM alpine:latest as certs
-
-RUN apk add ca-certificates
+FROM bjrooney/alpine:3.16.1 as certs
 
 FROM bjrooney/executor:v1.8.1-debug
 

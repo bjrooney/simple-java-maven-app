@@ -74,9 +74,10 @@ jobs:
         with:
           image: ${{ env.image }}
           tag:   ${{ env.tag }}
-          username: bjrooney
+          username: 'bjrooney'
           password: ${{ secrets.DOCKERIO_PASSWORD }}
-          cache: false
+          cache: true
+          cache_registry: aevea/cache
 
       - 
         name: List files in the repository

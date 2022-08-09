@@ -89,7 +89,7 @@ jobs:
       #     tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.image }}:${{ env.tag }}
       -
         name: Kaniko build to Artifactory
-        uses: .github/actions/kaniko
+        uses: ./github/actions/kaniko
         with:
           image: ${{ env.image }}
           tag:   ${{ env.tag }}

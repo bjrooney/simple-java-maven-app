@@ -1,6 +1,6 @@
-FROM bjrooney/alpine:3.16.1 as certs
+FROM alpine:3.16.1 as certs
 
-FROM bjrooney/executor:v1.8.1-debug
+FROM  aevea/action-kaniko
 
 SHELL ["/busybox/sh", "-c"]
 

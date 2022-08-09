@@ -74,10 +74,9 @@ jobs:
         with:
           image: ${{ env.image }}
           tag:   ${{ env.tag }}
-          registry: ${{ secrets.ARTIFACTORY_DOCKER_REPO }}
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_SECRET}}
-          cache: true
+          username: bjrooney
+          password: ${{ secrets.DOCKERIO_PASSWORD }}
+          cache: false
 
       - 
         name: List files in the repository

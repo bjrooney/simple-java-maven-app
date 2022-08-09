@@ -7,5 +7,3 @@ COPY --from=certs /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certifica
 
 ENTRYPOINT ["/entrypoint.sh"]
 
-LABEL repository="https://github.com/aevea/action-kaniko" \
-    maintainer="Alex Viscreanu <alexviscreanu@gmail.com>"

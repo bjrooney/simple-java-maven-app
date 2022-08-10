@@ -97,8 +97,8 @@ jobs:
           password: ${{ secrets.DOCKER_SECRET }}
           registry: ${{ secrets.ARTIFACTORY_DOCKER_REPO }}
           skip_unchanged_digest: true
-          cache: true
-          cache_registry: aevea/cache
+
+
       - 
         name: List files in the repository
         run: |
